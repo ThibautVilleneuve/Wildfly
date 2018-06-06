@@ -1,4 +1,4 @@
-# jenkins-server
+# Wildfly-server
 Création d'un serveur Tomcat/Jenkins dans un conteneur LXC avec ansible
 
 Pour créer un serveur Jenkins, il faut suivre les étapes suivantes :
@@ -23,15 +23,8 @@ Pour créer un serveur Jenkins, il faut suivre les étapes suivantes :
 
     ./02_run_playbook.sh
 
-* Vous pouvez accéder au serveur Jenkins à partir d'un navigateur Web à l'adresse :
+* Vous pouvez accéder au serveur Wildfly à partir d'un navigateur Web à l'adresse :
 
     http://[ip conteneur]:8080
     
-  Le premier accès a Jenkins nécessite de débloquer le serveur en entrant une clé
-  d'authentification. Cette clé a été générée sur le serveur. Pour la récupérer,
-  vous pouvez lancez le script suivant :
-  
-    ./03_get_jenkins_admin_password.sh [nom du conteneur]
-  
-  Le script affiche sur la sortie standard la clé qu'il faut ensuite copier/coller
-  dans le formulaire Web pour débloquer le serveur.
+
