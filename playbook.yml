@@ -1,0 +1,95 @@
+---
+- hosts: ci-server
+  tasks: 
+    - 
+      name: "installation du jdk8"
+      package: "name=openjdk-8-jdk-headless state=present"
+    - 
+      name: "creation du compte pour wildfly"
+      user: 
+        home: /home/wildfly
+        name: wildfly
+        password: 125PVH
+        shell: /bin/bash
+        system: true
+    -
+      name: "telecharger l'archive wildfly"
+      get_url:
+        url:  "http://download.jboss.org/wildfly/11.0.0.Final/wildfly-11.0.0.Final.tar.gz"
+        dest: /home/wildfly/
+    -
+      name: "Créer le dossier /etc/wildfly/"
+      file:
+        path: /etc/wildfly
+        state: directory
+        mode: 0755
+    -
+      name: "Dézipper l'archive wildfly"
+      unarchive:
+        dest: /opt/
+        src: /home/wildfly/wildfly-11.0.0.Final.tar.gz
+        remote_src: yes
+        copy: no
+    -
+      name: "donner les droits"
+      file:
+        path: /opt/wildfly-11.0.0.Final
+        owner: wildfly
+        group: wildfly
+        mode: 0755
+        state: directory
+    -
+      name: "renommer dossier"
+      command: mv /opt/wildfly-11.0.0.Final/ /opt/wildfly
+      args:
+        chdir: /opt/
+        creates: /opt/wildfly/
+    - 
+      name: "deplacer wildfly.conf"    
+      copy: 
+        src: /opt/wildfly/docs/contrib/scripts/systemd/wildfly.conf 
+        dest: /etc/wildfly/wildfly.conf
+        remote_src: yes
+    -
+      name: "donner les droits à wildfly.conf"
+      file:
+        path: /etc/wildfly/wildfly.conf
+        owner: wildfly
+        group: wildfly
+        mode: 0755
+    -
+      name: "deplacer wildfly.service"
+      copy:
+        src: /opt/wildfly/docs/contrib/scripts/systemd/wildfly.service
+        dest: /etc/systemd/system/
+        remote_src: yes
+    -
+      name: "donner les droits à wildfly.service"
+      file:
+        path: /etc/systemd/system/wildfly.service
+        owner: wildfly
+        group: wildfly
+        mode: 0755
+    -
+      name: "deplacer launch.sh"
+      copy:
+        src: /opt/wildfly/docs/contrib/scripts/systemd/launch.sh
+        dest: /opt/wildfly/bin/
+        remote_src: yes
+    -
+      name: "donner les droits à launch.sh"
+      file:
+        path: /opt/wildfly/bin/launch.sh
+        owner: wildfly
+        group: wildfly
+        mode: 0755
+    -
+      name: "Start service wildfly, if not running"
+      service:
+       name: wildfly
+       state: started
+    -
+      name: "reload daemon"
+      command: systemctl daemon-reload
+
+
