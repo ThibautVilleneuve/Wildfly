@@ -9,7 +9,6 @@
       user: 
         home: /home/wildfly
         name: wildfly
-        password: 125PVH
         shell: /bin/bash
         system: true
     -
