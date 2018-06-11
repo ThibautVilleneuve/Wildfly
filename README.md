@@ -1,7 +1,7 @@
 # Wildfly-server
-Création d'un serveur Tomcat/Jenkins dans un conteneur LXC avec ansible
+Création d'un serveur Wildfly dans un conteneur LXC avec ansible
 
-Pour créer un serveur Jenkins, il faut suivre les étapes suivantes :
+Pour créer un serveur Wildfly, il faut suivre les étapes suivantes :
 
 * Lancer le script de création du conteneur Ubuntu en passant en paramètre le nom du conteneur :
 
