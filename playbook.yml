@@ -1,12 +1,12 @@
 ---
 - hosts: ci-server
-  tasks: 
-    - 
+  tasks:
+    -
       name: "installation du jdk8"
       package: "name=openjdk-8-jdk-headless state=present"
-    - 
+    -
       name: "creation du compte pour wildfly"
-      user: 
+      user:
         home: /home/wildfly
         name: wildfly
         shell: /bin/bash
@@ -29,26 +29,14 @@
         src: /home/wildfly/wildfly-11.0.0.Final.tar.gz
         remote_src: yes
         copy: no
-    -
-      name: "donner les droits"
-      file:
-        path: /opt/wildfly-11.0.0.Final
         owner: wildfly
         group: wildfly
-        mode: 0755
-        state: directory
     -
       name: "renommer dossier"
       command: mv /opt/wildfly-11.0.0.Final/ /opt/wildfly
       args:
         chdir: /opt/
         creates: /opt/wildfly/
-    - 
-      name: "deplacer wildfly.conf"    
-      copy: 
-        src: /opt/wildfly/docs/contrib/scripts/systemd/wildfly.conf 
-        dest: /etc/wildfly/wildfly.conf
-        remote_src: yes
     -
       name: "donner les droits à wildfly.conf"
       file:
@@ -90,5 +78,4 @@
     -
       name: "reload daemon"
       command: systemctl daemon-reload
-
 
